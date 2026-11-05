@@ -605,7 +605,8 @@ class Stream extends AbstractNonZeroStream implements HeaderEmitter {
 
     final boolean receivedEndOfHeaders() throws ConnectionException {
         if (coyoteRequest.getMethod() == null || coyoteRequest.scheme().isNull() ||
-                !Method.CONNECT.equals(coyoteRequest.getMethod()) && coyoteRequest.requestURI().isNull()) {
+                !Method.CONNECT.equals(coyoteRequest.getMethod()) && coyoteRequest.requestURI().isNull() ||
+                coyoteRequest.serverName().isNull()) {
             throw new ConnectionException(sm.getString("stream.header.required", getConnectionId(), getIdAsString()),
                     Http2Error.PROTOCOL_ERROR);
         }
